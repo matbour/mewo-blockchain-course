@@ -1,0 +1,15 @@
+{
+    "files.exclude": {
+        "**/*.aux": true,
+        "_minted-main": true,
+        "svg-inkscape": true,
+        "main.{fdb_latexmk,fls,log,nav,out,snm,synctex.gz,toc}": true,
+        "indent.log": true
+    },
+    "latex-workshop.latexindent.args": [
+        "-c",
+        "%DIR%/",
+        "%TMPFILE%",
+        "-y=defaultIndent: '  '"
+    ]
+}
