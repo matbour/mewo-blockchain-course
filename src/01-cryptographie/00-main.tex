@@ -1,0 +1,62 @@
+\section{Cryptographie}
+\framewithtitle{Cryptographie}
+
+\begin{frame}{Sommaire}
+  \setcounter{tocdepth}{2}
+  \tableofcontents[currentsection, hideothersubsections]
+\end{frame}
+
+\begin{frame}{Objectifs de ce module}
+  Comprendre les opérations de base de la cryptographie
+  \begin{enumerate}
+    \item Hachage
+    \item Chiffrement symétrique/asymétrique
+    \item Signature digitale
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Notations}
+  \begin{tiny}
+    \textit{Je suis désolé, il faut faire un tout petit peu de maths...}
+  \end{tiny}
+
+  Dans la suite, je vais noter :
+
+  \begin{itemize}
+    \item $\mathbb{B} = \{0,1\}^\mathbb{N}$ l'ensemble des mots binaires
+    \item $\mathbb{B}_{n \in \mathbb{N}} = \{0,1\}^n$ l'ensemble des mots binaires de taille $n$
+  \end{itemize}
+
+  Exemples :
+
+  \begin{itemize}
+    \item $B_3 = \{000, 001, 010, 011, 100, 101, 110, 111\}$
+    \item $010010$ est un mot binaire de 6 bits, il est donc membre de $\mathbb{B}_6$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Qu'est-ce que la cryptographie ?}
+  \begin{columns}
+    \begin{column}{0.65\textwidth}
+      TL;DR = utiliser les mathématiques au service de la sécurité de l'information
+
+      Exemples historiques :
+      \begin{itemize}
+        \item Chiffrement de César : décalage de lettre de 1 à 25
+        \item Chiffrement de Vigenère : sustitions de lettres à partir d'une clé secrète
+        \item Chiffrement affine : subsutition de lettre à l'aide d'une équation affine
+        \item Enigma (seconde guerre modiale) : machine de chiffrement allemande
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.3\textwidth}
+      \input{figures/enigma}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\input{src/01-cryptographie/01-checksum}
+\input{src/01-cryptographie/02-hash}
+\input{src/01-cryptographie/03-symmetric}
+\input{src/01-cryptographie/04-asymetric}
+\input{src/01-cryptographie/05-signature}

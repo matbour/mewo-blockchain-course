@@ -10,9 +10,35 @@
 \setbeamercolor{author in head/foot}{bg=myuniversity}
 \setbeamertemplate{page number in head/foot}{}
 
+\setbeamertemplate{headline}
+{%
+  \leavevmode%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex]{section in head/foot}%
+    \hbox to .5\paperwidth{\hfil\insertsectionhead\hfil}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex]{subsection in head/foot}%
+    \hbox to .5\paperwidth{\hfil\insertsubsectionhead\hfil}
+  \end{beamercolorbox}%
+}
+
 \setbeamertemplate{blocks}[rounded][shadow=false]
 \setbeamertemplate{blocks}[default]
 
+\setbeamertemplate{navigation symbols}{}
+\addtobeamertemplate{footline}{
+  \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=2.75ex,dp=.5ex,right,rightskip=1em]{white}%
+      \usebeamercolor[fg]{navigation symbols}\insertslidenavigationsymbol%
+      \insertframenavigationsymbol%
+      \insertsubsectionnavigationsymbol%
+      \insertsectionnavigationsymbol%
+      \insertdocnavigationsymbol%
+      \insertbackfindforwardnavigationsymbol%
+    \end{beamercolorbox}%
+  }%
+  \vskip0.5pt%
+}{}
 \usecolortheme[named=myuniversity]{structure}
 
 \logo{\includesvg[height=1cm]{img/mewo-informatique-logo.svg}}

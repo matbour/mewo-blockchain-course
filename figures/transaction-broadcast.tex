@@ -1,0 +1,33 @@
+\begin{figure}
+  \resizebox{\columnwidth}{!}{%
+    \begin{tikzpicture}[
+        Node/.style={draw}
+      ]
+      % Actors
+      \node[label=Alice] (alice) at (0,0) {\includegraphics[height=4cm]{img/alice.png}};
+      \node[draw,right = 1cm of alice] (tx) {Transaction};
+
+      \node[Node,right = 9cm of alice] (n1) {Node 1};
+      \node[Node,above right = 1cm and 2cm of n1] (n2) {Node 2};
+      \node[Node,left = 1cm of n1] (n3) {Node 3};
+      \node[Node,below right = 2cm and 1cm of n1] (n4) {Node 4};
+      \node[Node,above left = 1cm and 0.5cm of n1] (n5) {Node 5};
+      \node[Node,below left = 2cm and 1cm of n1] (n6) {Node 6};
+      \node[Node,below = 1cm of n1] (n7) {Node 7};
+      \node[Node,left = 3cm of n1] (n8) {Node 8};
+
+      \draw[->] (alice) -- (tx) -- (n8);
+      \foreach \node in {n5,n3,n6}
+      \draw[->] (n8) -- (\node);
+      \foreach \node in {n1,n7,n2}
+      \draw[->] (n5) -- (\node);
+      \foreach \node in {n1,n7}
+      \draw[->] (n3) -- (\node);
+      \foreach \node in {n1,n7,n4}
+      \draw[->] (n6) -- (\node);
+
+    \end{tikzpicture}%
+  }
+
+  \caption{Diffusion ou \textquote{broadcast} d'une transaction}
+\end{figure}

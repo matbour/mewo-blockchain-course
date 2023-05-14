@@ -5,29 +5,17 @@
 \input{internal/beamer}
 \input{internal/config}
 
-\title[Blockchain]{Blockchain - Web2}
+\title[Blockchain]{Blockchain - Web3}
 \institute[]{Mewo Informatique}
-\titlegraphic{\vspace{-1cm}\includesvg[height=4.0cm]{img/mewo-informatique-logo.svg}}
+\titlegraphic{\vspace{-1.3cm}\includesvg[height=4.0cm]{img/mewo-informatique-logo.svg}}
 \author{Mathieu Bour}
 \date{Mai-Juin 2023}
 
 \begin{document}
-\begin{frame}
-  \maketitle
-\end{frame}
 
-\setlength{\parskip}{0.7em}
-
-\include{src/00-disclaimer.tex}
-
-\begin{frame}
-  \frametitle{Plan de la Présentation}
-  \setcounter{tocdepth}{1}
-  \tableofcontents
-\end{frame}
-
-\input{src/01-introduction-a-la-blockchain}
-\input{src/02-ethereum}
-\input{src/03-smart-contracts}
+\input{src/00-title/00-main}
+\input{src/01-cryptographie/00-main}
+\input{src/02-introduction-blockchain/00-main}
+\input{src/03-ethereum/00-main}
 
 \end{document}

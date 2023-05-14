@@ -1,0 +1,63 @@
+\subsection{Chiffrement symétrique}
+
+\begin{frame}{Chiffrement : définition}
+  \begin{block}{Définition : chiffrement}
+    Le chiffrement est une technique permettant à deux parties d'échanger de manière sécurisée.
+    Il existe deux grands types de chiffrements, dits symétrique et asymétrique.
+
+    Les principales caractéritiques du chiffrement sont :
+
+    \begin{itemize}
+      \item Confidentialité : protéger contre l'accès non autorisé, seules les personnes ayant la clé puissent déchiffrer et lire le message.
+      \item Intégrité : détecter toute modification ou altération des données chiffrées. Si les données chiffrées sont altérées, le déchiffrement donnera un résultat incorrect ou une erreur.
+      \item Efficacité : traiter rapidement les données, en particulier lorsqu'il s'agit de volumes importants.
+      \item Sécurité : être résistants aux attaques cryptographiques, telles que les attaques par force brute, les attaques de collision, différentielles\dots
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Modèle de canal de communication}
+  \input{figures/unusecured-canal}
+\end{frame}
+
+\begin{frame}{Chiffrement symétrique}
+  \begin{block}{Définition : chiffrement symétrique}
+    Le chiffrement symétrique est une technique de chiffrement où \textbf{une seule et même clé} est utilisée à la fois pour le \textbf{chiffrement et le déchiffrement} des données.
+    Cela signifie que l'émetteur et le destinataire du message doivent partager la même clé secrète pour pouvoir communiquer de manière sécurisée.
+
+    \vspace{1em}
+
+    Exemples d'algorithmes de chiffrement symétriques :
+
+    \begin{itemize}
+      \item AES
+      \item DES (obslète) et triple DES
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Chiffrement symétrique : modèle}
+  \input{figures/symmetric-cipher}
+\end{frame}
+
+\begin{frame}{Chiffrement symétrique : exercice}
+  \begin{block}{Exercice : échange d'information sur canal public}
+    \begin{enumerate}
+      \item Aller sur \url{https://www.devglan.com/online-tools/aes-encryption-decryption}
+      \item Choisir une clé de 32 caractères hexadécimaux (par ex: \texttt{770A8A65DA156D24EE2A093277530142}).
+      \item Partager la clé avec un ami.
+      \item Chiffrer un message et le publier sur un canal public.
+      \item Vérifier que l'ami est capable de déchiffrer le message et personne d'autre.
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Chiffrement symétrique : résumé}
+  \begin{itemize}
+    \item Le chiffrement symétrique permet d'échanger des messages secrets.
+    \item Une seule clé pour chiffrer et déchiffrer $\Rightarrow$ l'émetteur et le destinataire doivent connaître la clé.
+    \item AES est l'algorithme le plus utilisé.
+  \end{itemize}
+
+  Problème : comment partager la clé de manière sécurisée ?
+\end{frame}

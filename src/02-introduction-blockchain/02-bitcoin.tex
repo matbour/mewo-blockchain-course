@@ -1,0 +1,218 @@
+\subsection{Exemple du Bitcoin}
+\framewithtitle{Exemple du Bitcoin}
+
+\begin{frame}{Bitcoin : décentralisation}
+  \begin{columns}
+    \begin{column}{0.6\textwidth}
+      \begin{itemize}
+        \item La blockchain Bitcoin est un réseau peer-to-peer décentralisé
+        \item Le réseau Bitcoin \textbf{toujours en ligne} (tant qu'il y a des noeuds)
+        \item Pas d'administration centrale (donc pas de Bitcoin Corp. Limited)
+        \item Tout individu peut y participer en créant un \textquote{n\oe{}ud} = démarrer un logiciel en CLI
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.4\textwidth}
+      \input{figures/btc-network.tex}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Bitcoin : livre de comptes}
+  \begin{columns}
+    \begin{column}{0.05\textwidth}
+    \end{column}
+
+    \begin{column}{0.65\textwidth}
+      La blockchain Bitcoin est un système décentralisé permettant aux utilisateurs d'échanger une monnaie numérique, le Bitcoin.
+
+      \begin{itemize}
+        \item Les Bitcoin (BTC) sont stockés dans des comptes, identifiés par une adresse
+        \item L'ensemble des soldes des comptes, le \textquote{livre de comptes} est stocké à de multiples endroits
+        \item Tout individu peut obtenir un compte gratuitement (on en parle plus tard)
+        \item Envoyer des $x$ BTC d'une adresse $a$ à une adresse $b$ revient à faire
+      \end{itemize}
+
+      \begin{minted}{solidity}
+        solde_a -= x; solde_b += x
+      \end{minted}
+    \end{column}
+
+    \begin{column}{0.2\textwidth}
+      \input{figures/btc-accounts.tex}
+    \end{column}
+
+    \begin{column}{0.1\textwidth}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Bitcoin : opérer un node}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \item Opérer un node = particper à la blockchain = augmenter la décentralisation
+        \item \textquote{Relativement léger} : 2 Go de RAM, 7 Go de disque, connexion 400 kilobits/sec
+        \item Attention, certains pays interdisent d'opérer un node : Afghanistan, Algérie, Bangladesh, Bolivie, Chine, Égypte, Kosovo, Maroc, Népal
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.5\textwidth}
+      \input{figures/btc-core-gui.tex}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Bitcoin : créer un compte}
+  \begin{itemize}
+    \item La blockchain Bitcoin, comme la majorité des blockchain, fonction avec un couple de clé publique/privée.
+    \item Chaque clé privée donne accès à un compte (=adresse) de la blockchain.
+    \item Attention, si \textbf{la clé privée fuite, le compte est définitivement compromis}.
+  \end{itemize}
+
+  Exemple avec \url{https://iancoleman.io/bip39/} :
+
+  \begin{itemize}
+    \item Clé privée \texttt{Kwp24SX6Uo1xNUDihM3oeSmg9MHrPm9ZEp7v26jrmxMmC5js4i5f}
+    \item Clé publique \texttt{0256fa0a8c520a0a501000845ebaf112295b3c5c29b4b0f7b2d01b933451d9ebf8}
+    \item Adresse \texttt{1CLHPJK9Z1NFzvQSnP5CozanMo5L35Caq1}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Bitcoin : effectuer une transaction}
+  \begin{block}{Définition : transaction}
+    Sur la blockchain Bitcoin, une transaction est un message signé (avec la clé privée) par un utlisateur de blockchain.
+    Elle contient les informations suivantes :
+
+    \begin{itemize}
+      \item L'adresse de l'émetteur.
+      \item L'adresse du destinataire.
+      \item La valeur (=montant) de la transaction.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Bitcoin : effectuer une transaction}
+  Exemple : Alice, qui possède 10 BTC, peut en envoyer 1 BTC à Bob en signant le message suivant :
+  \textquote{Moi, Alice, envoie 1 BTC à Bob}
+
+  Une fois la transaction signée, il faut l'envoyer au réseau Bitcoin.
+  Pour cela, Alice doit enoyer la transaction à un node Bitcoin.
+
+  Ce dernier va alors vérifier la transaction (si la signature est valide) et si c'est le cas, l'enoyer à d'autres noeuds du réseau, qui vont eux-mêmes vérifier la transaction, etc.
+  Par effet boule de neige, la transaction fini par atteindre rapidement tous les noeuds Bitcoin.
+\end{frame}
+
+\begin{frame}{Bitcoin : effectuer une transaction}
+  \input{figures/transaction-broadcast}
+\end{frame}
+
+\begin{frame}{Bitcoin : problème du consensus}
+  \begin{itemize}
+    \item Dans le schéma précédent, Alice a initialiement envoyé sa transaction au Node 8, ce qui implique que celui-ci a eu temporairement une liste de transactions différente des autres nodes.
+    \item En parallèle, d'autres individus envoient des transactions à d'autres nodes.
+    \item En pratique, aucun node n'a exactement la même liste de transactions.
+    \item[$\Rightarrow$] C'est le problème du consensus = dans un système décentralisé, commet faire en sorte de mettre tout le monde d'accord ?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Bitcoin : structure en blocs}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{block}{Définition : bloc}
+        Dans une blockchain, un bloc est un ensemble de transactions.
+      \end{block}
+
+      \begin{itemize}
+        \item Dans la blockchain Bitcoin, la taille d'un bloc est limité à 1 MB ce qui correspond à environ 2000 transactions.
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.5\textwidth}
+      \input{figures/bitcoin-block-transactions}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Bitcoin : consensus par preuve de travail \textquote{proof-of-work}}
+
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \item Afin d'obtenir le consensus, Satoshu Nakamoto a choisi d'utiliser la preuve de travail ou \textquote{proof-of-work}.
+        \item Afin de proposer son bloc, le node doit résoudre un problème cryptographique difficile : il doit réussir à concevoir un bloc dont le hash avec l'algorithme SHA-256 commence par un certain nombre de zéro.
+        \item Pour cela, le node fait varier le \textbf{nonce} du bloc, qui est un text arbitraiore ajouté en fin de bloc.
+      \end{itemize}
+
+    \end{column}
+
+    \begin{column}{0.5\textwidth}
+      \input{figures/bitcoin-block-transactions}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Bitcoin : consensus par preuve de travail \textquote{proof-of-work}}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \item Si le node trouve la solution, il doit la diffuser au reste du réseau qui vérifieront le nonce trouvé.
+        \item En récompense, le node reçoit 6.25 BTC soit environ 150000€ au 14 mai 2023.
+        \item La seule manière de trouver la solution est la force brute (cf. sécurité des fonctions de hachage).
+        \item On appelle également les nodes \textquote{mineurs}.
+        \item Un bloc est miné toutes les 10 minutes.
+      \end{itemize}
+
+    \end{column}
+
+    \begin{column}{0.5\textwidth}
+      \input{figures/bitcoin-block-transactions}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Bitcoin : aspect économiques et halving}
+  \begin{itemize}
+    \item Sachant que chaque bloc miné introduit des nouveaux bitcoin dans le marché, la valeur du bitcoin baisse nécessairement sur la durée (plus de bitcoin=moins de valeur pour 1 bitcoin).
+    \item Ce phénomène est comparable à l'inflation des monnaies traditionnelles.
+  \end{itemize}
+
+  \begin{block}{Halving (de l'anglais \textit{half}, moitié)}
+    Dans la blockchain Bitcoin, les récompenses de bloc sont divisées par deux tous les 210000 blocs, soit environ 4 ans.
+    En 2009, un bloc valait 50 BTC, en 2013 25 BTC, en 2016 12 BTC et en 2020 6.25 BTC.
+  \end{block}
+
+  \begin{block}{Maximum supply}
+    Dû au mécanisme de halving, il ne pourra jamais y avoir plus de 21 millions de BTC en circulation.
+    Aucun État, organisation, armée ou puissance ne pourra en décider autrement.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Bitcoin : minage}
+  \begin{columns}
+    \begin{column}{0.6\textwidth}
+      \begin{itemize}
+        \item Vu les récompenses de blocs, le minage s'est rapidement professionalisé.
+        \item Des entreprises ont créé spécifiquement désigné pour le minage du Bitcoin, 20 fois plus puissants que les meilleurs processeurs AMD/Intel.
+        \item La consommation électrique du minage de Bitcoin atteint 140 TWh par en mars 2023 (Univ. Cambridge), soit l'énergie consommé par l'Égypte ou la moitié du parc nucléaire français.
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.3\textwidth}
+      \begin{figure}
+        \resizebox{\textwidth}{!}{
+          \includegraphics{img/antminer.png}
+        }
+
+        \caption{Un mineur Antminer L7}
+      \end{figure}
+    \end{column}
+    \begin{column}{0.1\textwidth}\end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Frais de transaction}
+  Émettre une transaction sur une blockchain n'est jamais gratuit et se paye en BTC.
+
+  \input{figures/btc-tx-fee.tex}
+\end{frame}

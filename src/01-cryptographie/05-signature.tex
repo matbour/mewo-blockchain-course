@@ -1,0 +1,28 @@
+\subsection{Signature numérique}
+
+\begin{frame}{Signature numérique : définition}
+  \begin{block}{Définition : signature numérique}
+    Une signature numérique est un mécanisme cryptographique utilisé pour authentifier l'intégrité et l'origine d'un message, d'un document électronique ou d'un ensemble de données.
+
+    Elle sert à garantir qu'un document n'a pas été altéré depuis sa signature et qu'il provient bien de l'expéditeur prétendu.
+
+    La signature numérique repose sur des algorithmes de cryptographie asymétrique, qui utilisent une paire de clés : une clé privée et une clé publique.
+
+    L'expéditeur utilise sa clé privée pour générer une signature numérique unique basée sur le contenu du document.
+    Cette signature est ensuite jointe au document, qui peut être transmis à d'autres parties.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Signature numérique : exemple}
+  \begin{enumerate}
+    \item Alice génère sa paire de clé publique/privée $(P_k, S_k)$
+    \item Alice publie sa clé publique $P_k$
+    \item Alice veut signer le message \textquote{Alice donne 1 BTC à Bob}
+          \begin{enumerate}
+            \item Alice calcule le hash de \textquote{Alice donne 1 BTC à Bob}
+            \item Alice chiffre le hash avec sa clé privée et diffuse le message+le hash signé
+          \end{enumerate}
+    \item Tout individu peut maintenant vérifier que le message qu'Alice a chiffré est bien le hash du message qu'elle a publié
+    \item[$\Rightarrow$] Alice a \textbf{signé} le message \textquote{Alice donne 1 BTC à Bob}
+  \end{enumerate}
+\end{frame}

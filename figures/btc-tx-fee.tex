@@ -1,0 +1,16 @@
+\begin{figure}
+  \begin{tikzpicture}
+    \begin{axis}[
+        width=0.9\textwidth,
+        height=6cm,
+        grid = major,
+        grid style={dashed, gray!30},
+        date coordinates in=x,
+        enlarge x limits=false,
+        xtick distance=90,
+        xticklabel={\month-\year},
+      ]
+      \addplot[myuniversity] table [x=date, y=tx_fee, col sep=comma] {data/btc-tx-fee.csv};
+    \end{axis}
+  \end{tikzpicture}
+\end{figure}

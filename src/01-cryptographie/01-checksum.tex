@@ -1,0 +1,35 @@
+\subsection*{Somme de contrôle}
+
+\begin{frame}{Somme de contrôle : définition}
+  \begin{block}{Définition : somme de contrôle}
+    Une somme de contrôle est une petite quantité de données additionnelle qui est calculée à partir d'un ensemble plus large de données. Elle est utilisée pour vérifier l'intégrité des données et détecter les erreurs ou les altérations éventuelles.
+  \end{block}
+
+  Exemples :
+
+  \begin{itemize}
+    \item Numéro de sécurité sociale
+    \item Numéro de carte bancaire
+    \item IBAN
+    \item Mémoire ECC (Error Correcting Code)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Somme de contrôle : exemple du numéro de sécurité sociale}
+  Les deux derniers chiffre du numéro de sécurité sociale ne contiennent aucune information mais ils sont utilisés comme somme contrôle, pour limiter les risques de faute d'erreur.
+
+  La formule permettant de calculer la clé est la suivante :
+
+  $$
+    \textrm{clé} = 97 - NIR \bmod 97
+  $$
+
+  $$
+    \underbrace{2 69 05 49 588 157}_{\textrm{numéro NIR}}\underbrace{80}_{\textrm{clé}}
+  $$
+
+  \begin{minted}{text}
+      >>> 97 - 2690549588157 % 97
+      80
+    \end{minted}
+\end{frame}

@@ -1,0 +1,48 @@
+\subsection{Chiffrement asymétrique}
+
+\begin{frame}{Chiffrement asymétrique}
+  \begin{block}{Définition : chiffrement asymétrique}
+    Le chiffrement asymétrique, également connu sous le nom de cryptographie à clé publique, est une technique de chiffrement qui utilise une paire de clés distinctes pour le processus de chiffrement et de déchiffrement des données.
+
+    Cette paire de clés est composée d'une clé publique et d'une clé privée. Elles sont liées mathématiquement. On peut alors chiffre un message avec la clé publique et déchiffrer le message avec la clé privée.
+  \end{block}
+
+  Cela permet de recevoir des messages de manière sécurisée sans échange de clé au préalable.
+
+  \begin{enumerate}
+    \item Alice publie sa clé publique (par exemple sur son profil GitHub).
+    \item Bob va la contacter et lui envoie un message chiffré avec la clé publique d'Alice
+    \item Alice déchiffre le message avec sa clé privée.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Chiffrement asymétrique : exemple}
+  On considère un algorithme de chiffrement asymétrique générique :
+
+  \begin{minted}{python}
+    def cipher(data: str, key: str) -> str:
+    def decipher(data: str, key: str) -> str:
+
+    message = "Hello world"
+    private_key, public_key = generateKeys()
+
+    result = cipher(message, public_key)  # "&*#&*#QQ#)"
+    clear = decipher(result, private_key) # "Hello world"
+  \end{minted}
+\end{frame}
+
+\begin{frame}{Chiffrement asymétrique : communication sécurisée}
+  \input{figures/asymetric-cipher}
+\end{frame}
+
+\begin{frame}{Combinaison asymétrique/symétrique}
+  L'uti lisation des deux techniques de chiffrement permet de communiquer de manière sécuriser sans avoir à faire un échange de clé au préalable.
+
+  \begin{enumerate}
+    \item Bob génère son couple de clés $(P_k,S_k)$ et publie sa clé publique $P_k$
+    \item Alice veut communiquer avec Bob. Elle génère une clé de chiffrement symétrique $K$.
+    \item Alice chiffre $K$ avec la clé publique de Bob $P_k$ et envoie le message chiffré à Bob.
+    \item Bob déchiffre le message d'Alice avec sa clé privée $S_k$ et se retrouve donc en possession de la clé $K$.
+    \item Par la suite, Alice et Bob utilise la clé $K$ et un algorithme de chiffrement symétrique pour communiquer.
+  \end{enumerate}
+\end{frame}
