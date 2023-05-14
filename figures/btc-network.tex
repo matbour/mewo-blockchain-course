@@ -1,0 +1,25 @@
+\begin{figure}
+  \resizebox{\columnwidth}{!}{%
+    \begin{tikzpicture}[font=\sffamily\footnotesize,
+        Node/.style={shape=ellipse,draw}
+      ]
+
+      \node[Node] (N_A) at (0,0) {Node A};
+      \node[Node, above right=2cm and 2cm of N_A] (N_B) {Node B};
+      \node[Node, below right=2cm and 2cm of N_A] (N_C) {Node C};
+      \node[Node, above left=2cm and 2cm of N_A] (N_D) {Node D};
+      \node[Node, below left=2cm and 2cm of N_A] (N_E) {Node E};
+
+      \draw[<->] (N_A) -- (N_B);
+      \draw[<->] (N_A) -- (N_C);
+      \draw[<->] (N_A) -- (N_D);
+      \draw[<->] (N_A) -- (N_E);
+      \draw[<->] (N_D) -- (N_E);
+      \draw[<->] (N_D) -- (N_B);
+      \draw[<->] (N_C) -- (N_E);
+      \draw[<->] (N_C) -- (N_B);
+    \end{tikzpicture}%
+  }
+
+  \caption{Réseau peer-to-peer}
+\end{figure}
