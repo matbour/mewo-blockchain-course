@@ -24,21 +24,25 @@
 \setbeamertemplate{blocks}[rounded][shadow=false]
 \setbeamertemplate{blocks}[default]
 
-\setbeamertemplate{navigation symbols}{}
+% \setbeamertemplate{navigation symbols}{}
 \addtobeamertemplate{footline}{
-  \leavevmode%
+  % \leavevmode%
   \hbox{%
     \begin{beamercolorbox}[wd=\paperwidth,ht=2.75ex,dp=.5ex,right,rightskip=1em]{white}%
-      \usebeamercolor[fg]{navigation symbols}\insertslidenavigationsymbol%
+      \usebeamercolor[fg]{navigation symbols}
+      \insertslidenavigationsymbol%
       \insertframenavigationsymbol%
       \insertsubsectionnavigationsymbol%
       \insertsectionnavigationsymbol%
       \insertdocnavigationsymbol%
       \insertbackfindforwardnavigationsymbol%
+      \hspace{1em}
+      \normalsize\insertframenumber/\inserttotalframenumber%
     \end{beamercolorbox}%
   }%
   \vskip0.5pt%
 }{}
+
 \usecolortheme[named=myuniversity]{structure}
 
 \logo{\includesvg[height=1cm]{img/mewo-informatique-logo.svg}}
