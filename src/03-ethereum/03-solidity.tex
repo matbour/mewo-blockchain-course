@@ -1,0 +1,265 @@
+\framewithtitle{Solidity}
+
+\begin{frame}{Qu'est-ce qu'un smart contract}
+  \begin{block}{Définition : smart contract}
+    Sur la blockchain Ethereum, un smart contract est un bytecode (=code hexadécimal) associé à une adresse.
+
+    $\Rightarrow$ Les adresses des smart contracts sont indiscernables des adresses des comptes utilisateurs.
+  \end{block}
+
+  \begin{block}{Définition : Externally Owned Account}
+    Les adresses contrôlés par des utilisateurs sont appelées \enquote{Externally Owned Account} (EOA).
+  \end{block}
+
+  Voir le glossaire d'Ethereum: \url{https://ethereum.org/en/glossary}
+\end{frame}
+
+\begin{frame}{Solidity ?}
+  \begin{block}{Définition : Solidity}
+    Solidity est un \textbf{langage de programmation} utilisé pour écrire des smart contracts sur la plateforme Ethereum.
+
+    Solidity permet aux développeurs de définir des règles et des logiques spécifiques à un smart contract.
+    Il permet d'écrire des lignes de code qui définissent comment un smart contract doit fonctionner, quelles actions il doit effectuer et comment il doit réagir dans différentes situations.
+
+    En utilisant Solidity, les développeurs peuvent créer des smart contracts pour diverses applications décentralisées (dApps)
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Solidity : syntaxe en POO}
+  \begin{minted}{solidity}
+    // SPDX-License-Identifier: UNLICENSED
+    pragma solidity ^0.8.13;
+    
+    contract Counter {
+        uint256 public number;
+    
+        function setNumber(uint256 newNumber) public {
+            number = newNumber;
+        }
+    }
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Solidity : header}
+  Le header d'un smart contract s'écrit en deux lignes :
+
+  \begin{minted}{solidity}
+    // SPDX-License-Identifier: UNLICENSED
+    pragma solidity ^0.8.13;
+  \end{minted}
+
+  La ligne 1 défini la licence du fichier :
+
+  \begin{itemize}
+    \item \mintinline{solidity}{UNLICENSED} signifie que le code est complètement privé
+    \item \mintinline{solidity}{pragma solidity ^0.8.13;} version de Solidity compatible avec le fichier
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Semantic versionning}
+  \begin{block}{Semantic versionning \enquote{SemVer}}
+    Le versionnage sémantique  est une méthode de numérotation des versions logicielles basée sur des règles spécifiques.
+    Elle se compose de trois nombres séparés par des points : MAJEUR.MINEUR.PATCH.
+    Le numéro MAJEUR est augmenté lorsque des changements incompatibles sont apportés, le numéro MINEUR est augmenté lorsque des fonctionnalités sont ajoutées de manière rétrocompatible, et le numéro PATCH est augmenté pour les corrections de bugs rétrocompatibles.
+  \end{block}
+
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Opérateurs}
+        \begin{itemize}
+          \item \texttt{=1.2.3} strictement égal à 1.2.3
+          \item \texttt{\^{}1.2.3} $\Rightarrow$ \texttt{1.2.3 < v < 2.0.0}
+          \item \texttt{\~{}1.2.3} $\Rightarrow$ \texttt{1.2.3 < v < 1.3.0}
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \hspace{0.01\textwidth}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Opérateurs (MAJEUR=0)}
+        \begin{itemize}
+          \item \texttt{=0.1.2} strictement égal à 0.1.2
+          \item \texttt{\^{}0.1.2} $\Rightarrow$ \texttt{0.1.2 < v < 0.2.0}
+        \end{itemize}
+
+        \vspace{1em}
+        \vspace{\smallskipamount}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Solidity : types primitifs}
+  \begin{itemize}
+    \item \mintinline{solidity}{uint} un entier non signé sur 256 bits
+    \item \mintinline{solidity}{uint8} un entier non signé sur 8 bits
+    \item \mintinline{solidity}{uint32} un entier non signé sur 32 bits
+    \item \mintinline{solidity}{uint256} un entier non signé sur 256 bits
+    \item \mintinline{solidity}{int} un entier signé sur 256 bits
+    \item \mintinline{solidity}{int32} un entier signé sur 32 bits
+    \item \mintinline{solidity}{address} une adresse Ethereum
+    \item \mintinline{solidity}{string} une chaîne de caractères
+    \item \mintinline{solidity}{struct} structure, au sens langage C du terme
+    \item \mintinline{solidity}{mapping} une association clé-valeur
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Solidity : visibilité}
+  \begin{columns}
+    \begin{column}{0.47\textwidth}
+      \begin{block}{Public}
+        \begin{minted}{solidity}
+          uint public myVariable;
+          function myFunction() public {
+            // Function logic
+          }
+        \end{minted}
+      \end{block}
+    \end{column}
+    \vspace{0.03\textwidth}
+    \begin{column}{0.47\textwidth}
+      \begin{block}{Private}
+        \begin{minted}{solidity}
+          uint internal myVariable;
+          function myFunction() internal {
+            // Function logic
+          }
+        \end{minted}
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \begin{columns}
+    \begin{column}{0.47\textwidth}
+      \begin{block}{Internal}
+        \begin{minted}{solidity}
+          uint internal myVariable;
+          function myFunction() internal {
+            // Function logic
+          }
+        \end{minted}
+      \end{block}
+    \end{column}
+    \vspace{0.03\textwidth}
+    \begin{column}{0.47\textwidth}
+      \begin{block}{External}
+        \begin{minted}{solidity}
+          // external variables not possible 
+          function myFunction() external {
+            // Function logic
+          }
+        \end{minted}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Exemple : cryptomonnaie}
+  \begin{minted}{solidity}
+    contract Mewo {
+      mapping(address => uint256) public balances;
+
+      function transfer(address to, uint256 amount) public {
+        require(balances[msg.sender] >= amount, "Insufficient balance");
+        balances[msg.sender] -= amount;
+        balances[to] += amount;
+      }
+    }
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Exemple : cryptomonnaie avec mint initial}
+  \begin{minted}{solidity}
+    contract Mewo {
+      uint256 constant MAX_SUPPLY = 1000000000; // 1 billion
+      mapping(address => uint256) public balances;
+
+      contructor() {
+        balances[msg.sender] += MAX_SUPPLY; // Initial mint
+      }
+
+      function transfer(address to, uint256 amount) public {
+        require(balances[msg.sender] >= amount, "Insufficient balance");
+        balances[msg.sender] -= amount;
+        balances[to] += amount;
+      }
+    }
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Exemple : cryptomonnaie avec mint}
+  \begin{minted}{solidity}
+    contract Mewo {
+      mapping(address => uint256) public balances;
+
+      function mint(uint256 amount) public {
+        balances[msg.sender] += amount
+      }
+
+      function transfer(address to, uint256 amount) public {
+        require(balances[msg.sender] >= amount, "Insufficient balance");
+        balances[msg.sender] -= amount;
+        balances[to] += amount;
+      }
+    }
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Solidity : \texttt{modifier}}
+  \begin{block}{Définition : \texttt{modifier}}
+    En Solidity, un \enquote{modifier} est une fonction spéciale qui permet de modifier le comportement d'autres fonctions dans un contrat intelligent.
+    Les modifiers fournissent un moyen pratique de réutiliser du code et d'ajouter des conditions supplémentaires ou des vérifications avant l'exécution d'une fonction.
+  \end{block}
+
+
+  \begin{block}{Syntaxe : \texttt{modifier}}
+    \begin{minted}{solidity}
+    modifier exampleModifier() {
+      _; // Continue function execution
+    }
+
+    function foobar() public exampleModifier {}
+  \end{minted}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Exemple : cryptomonnaie avec mint protégé}
+  \begin{minted}{solidity}
+    contract Mewo {
+      address owner;
+      mapping(address => uint256) public balances;
+
+      constructor() {
+          owner = msg.sender;
+      }
+    
+      modifier onlyOwner() {
+          require(msg.sender == owner, "Only owner");
+          _;
+      }
+    
+      function mint(uint256 amount) public onlyOwner {
+          balances[msg.sender] += amount;
+      }
+    }
+  \end{minted}
+\end{frame}
+
+\begin{frame}{Notion de gas}
+  \begin{itemize}
+    \item Les frais Ethereum ne paie pas à la transaction mais à la \textbf{complexité du calcul}
+    \item Transférer de l'Ether entre deux comptes est beaucoup moins coûteux que faire participer à une enchère de NFTs
+    \item La complexité des transactions en Ethereum se mesure en \enquote{gas}
+    \item Le prix d'un \enquote{gas} se mesure en Gwei avec 1 ETH = 1000000000 Gwei.
+    \item L'utilisateur peut choisir le prix du \enquote{gas} affecté à sa transaction.
+  \end{itemize}
+
+  \begin{block}{Exemple : \texttt{Mewo.mint}}
+    \begin{itemize}
+      \item Gas utilisé pour la fonction mint : $24634$
+      \item Prix du gas : $37$ gwei/gas
+      \item Prix d'un ETH = \$1,817.85
+      \item Total = $24634\times37=911458$ gwei $= 0.000911458$ ETH $ = \$1.657$
+    \end{itemize}
+  \end{block}
+\end{frame}

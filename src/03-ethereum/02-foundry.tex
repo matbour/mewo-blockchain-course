@@ -1,0 +1,57 @@
+\framewithtitle{Foundry}
+
+\begin{frame}{Foundry}
+  Dans ce cours, nous allons utiliser Foundry, un utilitaire permettant de développer des smart-contracts simplement.
+\end{frame}
+
+\begin{frame}[fragile]{Installation de Foundry : Windows}
+  Il faut d'abord installer Windows Subsystem Linux avec :
+  \begin{minted}{bash}
+    $ wsl --install
+  \end{minted}
+
+  WSL demandera de redémarrer, puis au redémarrage de choisir un nom d'utilisateur et un mot de passe.
+  Pour confirmer la bonne installation de WSL, exécuter :
+
+  \begin{minted}{bash}
+    $ wsl --list
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Installation de Foundry}
+  Configurer git avec votre nom / email :
+
+  \begin{minted}{bash}
+    $ git config --global user.email "you@example.com"
+    $ git config --global user.name "Prénom Nom"
+  \end{minted}
+
+  Installer Foundryup (installateur de Foundry)
+  \begin{minted}{bash}
+    $ curl -L https://foundry.paradigm.xyz | bash
+  \end{minted}
+
+  Redémarrer le terminal, lancer Foundryup
+  \begin{minted}{text}
+    $ foundryup
+  \end{minted}
+
+  Redémarrer le terminal, lancer Forge
+  \begin{minted}{text}
+    $ forge
+    forge 0.2.0 (31fcf5a 2023-05-19T00:10:33.861185000Z)
+  \end{minted}
+\end{frame}
+
+\begin{frame}{Architecture d'un projet Foundry}
+  \dirtree{%
+    .1 /.
+    .2 artifacts\DTcomment{Fichiers compilés}.
+    .2 out\DTcomment{Fichiers compilés}.
+    .2 lib\DTcomment{Libraries installées}.
+    .2 src\DTcomment{Code source des contrats}.
+    .2 test\DTcomment{Test des contrats}.
+    .2 .gitmodules.
+    .2 foundry.toml\DTcomment{Configuration de Foundry}.
+  }
+\end{frame}

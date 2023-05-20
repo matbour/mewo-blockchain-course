@@ -1,0 +1,14 @@
+version: "0.2"
+language: fr
+words:
+  - bytecode
+  - contract
+  - contracts
+  - Externally
+  - foundry
+  - foundryup
+  - gitmodules
+  - mint
+  - Owned
+  - Solidity
+  - Subsystem
