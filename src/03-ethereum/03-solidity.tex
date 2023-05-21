@@ -103,6 +103,71 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]{Solidity : le type \texttt{address}}
+  Le type \mintinline{solidity}{address} est spécial et possède des propriétés :
+
+  \begin{itemize}
+    \item \mintinline{solidity}{<address>.balance} le montant d'ether détenu par l'adresse
+    \item \mintinline{solidity}{<address>.code} le code à l'adresse (vide pour les EOA)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Solidity : variables spéciales}
+  \begin{block}{\texttt{msg} (= message)}
+    Un message représente un appel d'une fonction d'un smart contract.
+
+    \begin{itemize}
+      \item \mintinline{solidity}{msg.sender} expéditeur du message
+      \item \mintinline{solidity}{msg.value} nombre d'Ether envoyés avec le message
+    \end{itemize}
+  \end{block}
+
+
+  \begin{block}{\texttt{block}}
+    Metadata du bloc actuel.
+
+    \begin{itemize}
+      \item \mintinline{solidity}{block.number} numéro du bloc actuel
+      \item \mintinline{solidity}{block.timestamp} tinmestamp UNIX en secondes
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Solidity : contrôle de flow}
+  \begin{columns}
+    \begin{column}{0.47\textwidth}
+      \mintinline{solidity}{if} / \mintinline{solidity}{else} / \mintinline{solidity}{else if}
+
+      \begin{minted}{solidity}
+        if (cond) {
+          // if path
+        } else if (cond2) {
+          // else if path
+        } else {
+          // else path
+        }
+      \end{minted}
+
+      Note : pas de \mintinline{solidity}{switch / case} en Solidity.
+    \end{column}
+    \vspace{0.03\textwidth}
+    \begin{column}{0.47\textwidth}
+      \mintinline{solidity}{for} / \mintinline{solidity}{while}
+
+      \begin{minted}{solidity}
+        for (uint256 i = 0; i < n; i++) {
+          // do stuff
+        }
+
+        while(cond) {
+          // do other stuff
+        }
+      \end{minted}
+
+      Note : pas de \mintinline{solidity}{do while} en Solidity.
+    \end{column}
+  \end{columns}
+\end{frame}
 
 \begin{frame}[fragile]{Solidity : visibilité}
   \begin{columns}
@@ -154,6 +219,8 @@
   \end{columns}
 \end{frame}
 
+
+
 \begin{frame}[fragile]{Exemple : cryptomonnaie}
   \begin{minted}{solidity}
     contract Mewo {
@@ -166,6 +233,24 @@
       }
     }
   \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Solidity : interfaces}
+  Comme beaucoup d'autres langages, Solidity dispose d'interfaces\footnote{Voir la \href{https://docs.soliditylang.org/fr/stable/contracts.html\#interfaces}{documentation Solidity des interfaces}} qui servent à intégrer des notions de polymorphisme.
+
+  \begin{itemize}
+    \item Elles ne peuvent pas hériter d'autres contrats, mais elles peuvent hériter d'autres interfaces.
+    \item Toutes les fonctions déclarées doivent être externes.
+    \item Elles ne peuvent pas déclarer de \texttt{constructor}, de variables d'état ou de \texttt{modifier}.
+  \end{itemize}
+
+  \begin{block}{Syntaxe : interface}
+    \begin{minted}{solidity}
+      interface IIoken {
+        function transfer(address recipient, uint amount) external;
+      }
+    \end{minted}
+  \end{block}
 \end{frame}
 
 \begin{frame}[fragile]{Exemple : cryptomonnaie avec mint initial}
