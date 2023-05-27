@@ -253,6 +253,32 @@
   \end{block}
 \end{frame}
 
+\begin{frame}[fragile]{Solidity : erreurs}
+  Souvent, il faut arrêter l'exécition d'un smart contract et renvoyer une erreur (exécution non autorisée, opération impossible, etc.).
+
+  \begin{columns}
+    \begin{column}{0.47\textwidth}
+      Fonction \mintinline{solidity}{revert(bool assertion, string message)}
+
+      Revert si \mintinline{solidity}{assertion} est évalué à false.
+    \end{column}
+    \vspace{0.01\textwidth}
+    \begin{column}{0.47\textwidth}
+      Custom errrors: permet de déclarer des erreurs avec des paramètres.
+
+      \begin{minted}{solidity}
+        contract Foo {
+          error Custom(uint256 arg1);
+
+          function willRevert() public {
+            revert Custom(1);
+          }
+        }
+      \end{minted}
+    \end{column}
+  \end{columns}
+\end{frame}
+
 \begin{frame}[fragile]{Exemple : cryptomonnaie avec mint initial}
   \begin{minted}{solidity}
     contract Mewo {
