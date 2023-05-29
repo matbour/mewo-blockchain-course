@@ -1,0 +1,22 @@
+\begin{frame}[fragile]{Projet 7 : Collection de NFT avec des traits}
+  Les collections de NFTs possèdent bien souvent des traits, qui des caractéristiques off-chains.
+  Les traits des NFT sont définis dans un fichier JSON dont l'URL est renvoyée par la fonction :
+
+  \begin{minted}{solidity}
+    interface IERC721Metadata {
+      function tokenURI(uint256 tokenId) returns (string memory);
+    }
+  \end{minted}
+
+  Créez une collection de NFT mintable via un contrat de vente supportant les traits :
+
+  \begin{itemize}
+    \item exposer les manifestes JSON des tokens via une petite application back-end (langage au choix)
+    \item stockez les caractéristiques des tokens dans une base de données
+    \item générez les traits au hasard loresqu'un token est minté :
+          \begin{itemize}
+            \item soit en utilisant un client Ethereum et en écoutant les events de Mint
+            \item soit en utilisant le produit \href{https://www.alchemy.com/notify/custom-webhooks}{Alchemy Custom Webhooks}
+          \end{itemize}
+  \end{itemize}
+\end{frame}

@@ -1,4 +1,5 @@
-\framewithtitle{Tokens Standards}
+\subsection{Standards de tokens}
+\framewithtitle{Standards de tokens}
 
 \begin{frame}{Qu'est-ce qu'un token ?}
   \begin{block}{Définition : token}
@@ -244,6 +245,40 @@
   \end{minted}
 \end{frame}
 
-\begin{frame}{ERC-1155}
+\begin{frame}[fragile]{ERC-721 : comparaison avec l'ERC-20}
+  \begin{itemize}
+    \item \solidity{balanceOf} renvoie le nombre de NFT possédés par une adresse
+    \item pas de fonction \solidity{transfer}, uniquement \solidity{transferFrom} (un transfer \enquote{classique} se fait en appelant \solidity{transferFrom} avec sa propre adresse en premier arguement)
+    \item la fonction \solidity{safeTransferFrom} permet de s'assurer que le destinataire est un EOA ou un contract compatible
+    \item \solidity{safeTransferFrom} prend en paramètre l'identifiant du NFT, pas le nombre de tokens à transférer
+  \end{itemize}
+\end{frame}
 
+\begin{frame}[fragile]{ERC-721 : \texttt{approve} / \texttt{getApproved}}
+  \begin{itemize}
+    \item \solidity{approve(address operator, uint256 tokenId)} permet d'autoriser le l'adresse \solidity{operator} à appeler la fonction \solidity{transferFrom}.
+    \item Il ne peut y avoir qu'un seul operator approuvé, c'est-à-dire que seule la dernière adresse utilisée avec la fonction \solidity{approved} possède les privilèges.
+    \item Le dernier opérateur approuvé est obtenable en appelant la fonction \solidity{getApproved(uint256 tokenId)}.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{ERC-721 : \texttt{setApprovedForAll} / \texttt{isApprovedForAll}}
+  \begin{itemize}
+    \item Il est possible d'autoriser une adresse pour toute une collection (très pratique sur les marketplaces par exemple) avec la fonction \solidity{setApprovalForAll(address operator, bool approved)}.
+    \item Le getter associé est \solidity{isApprovedForAll}.
+  \end{itemize}
+
+  Attention, \solidity{setApprovalForAll} peut être dangereux :
+
+  \begin{itemize}
+    \item L'autorisation s'applique à toute la collection, y compris sur les tokens reçu dans le futur.
+    \item Si l'adresse de l'opérateur est compromise, la collection peut être entièrement volée.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Autres standards}
+  \begin{itemize}
+    \item Le standard ERC-1155 est un hybride entre les standard ERC-20 et ERC-721. Il permet de créer de multiples tokens, fongibles ou non fongibles, dans un seul contrat.
+    \item Le standard ERC-777 fut un tentative d'améliorer le standard ERC-20 mais il a récemment été déprécié par de nombreuses bibliothèques dû à son manque d'adoption.
+  \end{itemize}
 \end{frame}

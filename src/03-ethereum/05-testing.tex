@@ -1,3 +1,4 @@
+\subsection{Tester avec Foundry}
 \framewithtitle{Tester avec Foundry}
 
 \begin{frame}{Tester un contrat ?}
@@ -48,15 +49,37 @@
 \end{frame}
 
 \begin{frame}[fragile]{Foundry : créer un test}
-  \begin{itemize}
-    \item Dans Foundry, les tests s'écrivent en Solidity.
-    \item Par convention, on teste le fichier \texttt{Contract.sol} dans \texttt{Contract.\textbf{t}.sol}
-    \item Deux méthodes possibles pour placer les tests :
-          \begin{itemize}
-            \item juste à côté du fichier source
-            \item dans le dossier \texttt{test}
-          \end{itemize}
-  \end{itemize}
+  \begin{columns}
+    \begin{column}{0.47\textwidth}
+      \begin{itemize}
+        \item Dans Foundry, les tests s'écrivent en Solidity.
+        \item Par convention, on teste le fichier \texttt{Contract.sol} dans \texttt{Contract.\textbf{t}.sol}
+        \item Deux méthodes possibles pour placer les tests :
+              \begin{itemize}
+                \item juste à côté du fichier source
+                \item dans le dossier \texttt{test}
+              \end{itemize}
+      \end{itemize}
+    \end{column}
+    \hspace{0.03\textwidth}
+    \begin{column}{0.47\textwidth}
+      \begin{minted}{solidity}
+        contract OwnableTest {
+          address user1 = makeAddr("user1");
+          Ownable ownable;
+
+          function setUp() public {
+            Ownable ownable = new Ownable();
+            ownable.transferOwnership(user1);
+          }
+
+          function test_owner() public {
+            assertEq(ownable.owner(), user1);
+          }
+        }
+      \end{minted}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 \begin{frame}[fragile]{Foundry : cheat codes}
@@ -67,5 +90,18 @@
     \item \solidity{hoax(address who)} le prochain call sera fait en tant que \solidity{who}
     \item \solidity{hoax(address who, uint256 amount)} le prochain call sera fait en tant que \solidity{who} et sa balance en ether sera de \solidity{amount}
     \item \solidity{deal(address who, uint256 amount)} change la balance de \solidity{who} en \solidity{amount}
+    \item \solidity{startHoax(address who)} et \solidity{stopHoax()} permettent de garder l'impersonification sur plusieurs calls
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Foundry : assertions}
+  Les assertions permettent de valider l'exactitude des données / variables.
+  Foundry propose notamment les assertions suivantes :
+
+  \begin{itemize}
+    \item \solidity{assertEq(x, y)} vérifie que \solidity{x} et \solidity{y} sont égaux
+    \item \solidity{assertApproxEqAbs(x, y, maxDelta)} vérifie que \solidity{x} et \solidity{y} sont égaux +/- \solidity{maxDelta}
+    \item \solidity{assertTrue(bool cond)} vérifie que \solidity{cond} est égal à \solidity{true}
+    \item \solidity{assertFalse(bool cond)} vérifie que \solidity{cond} est égal à \solidity{false}
   \end{itemize}
 \end{frame}
