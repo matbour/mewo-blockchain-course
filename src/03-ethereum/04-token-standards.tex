@@ -1,0 +1,249 @@
+\framewithtitle{Tokens Standards}
+
+\begin{frame}{Qu'est-ce qu'un token ?}
+  \begin{block}{Définition : token}
+    Dans le contexte de la blockchain Ethereum, un "token" fait référence à une unité de valeur numérique qui est émise et utilisée sur le réseau Ethereum.
+  \end{block}
+
+  \begin{itemize}
+    \item La création d'un token sur Ethereum est réalisée en mettant en place un smart contract qui définit les règles et les fonctionnalités spécifiques du token.
+    \item Ce smart contract est ensuite déployé sur la blockchain Ethereum, ce qui lui permet d'interagir avec d'autres contrats et d'être utilisé par les utilisateurs du réseau.
+    \item Les tokens sur Ethereum peuvent être transférés entre différentes adresses Ethereum, ce qui permet des transactions peer-to-peer.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{ERC-20 : besoin de standardisation}
+  \begin{itemize}
+    \item Le standard ERC-20 a été créé dans le but de faciliter l'émission et l'interopérabilité des tokens sur la blockchain Ethereum.
+    \item Avant l'introduction du standard ERC-20, chaque token avait son propre smart contract avec des règles et des interfaces spécifiques, ce qui rendait difficile l'interaction entre les tokens et leur intégration dans des applications tierces.
+    \item Le standard ERC-20 définit \textbf{une interface} que doivent suivre les contrats qui l'implémentent.
+    \item Grâce à cette norme, les tokens ERC-20 peuvent être facilement créés, gérés, échangés et utilisés par les utilisateurs, les portefeuilles et les plateformes d'échange.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{ERC-20 : tokens fongibles}
+  Le standard ERC-20 défini les tokens \enquote{fongibles}.
+
+  \begin{block}{Définition : token fongible}
+    Un token fongible est un type de token dans lequel chaque unité est interchangeable avec une autre unité du même type.
+    Cela signifie que chaque token fongible est considéré comme équivalent et peut être remplacé par un autre token identique, sans qu'il y ait de distinction ou de différence entre eux.
+  \end{block}
+
+  \begin{itemize}
+    \item C'est la perception \enquote{naturelle} de la monnaie : un billet de 5 euros a exactement la même valeur qu'un autre billet de 5 euros.
+    \item Chaque unité d'un token fongible ERC-20 est identique en termes de valeur, de fonctionnalité et de propriétés.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{ERC-20 : interface}
+  \begin{minted}{solidity}
+    interface IERC20 {
+      function name() public view returns (string)
+      function symbol() public view returns (string)
+      function decimals() public view returns (uint8)
+      function totalSupply() public view returns (uint256)
+      function balanceOf(address _owner) public view returns (uint256 balance)
+      function transfer(address _to, uint256 _value) public returns (bool success)
+      function transferFrom(address _from, address _to, uint256 _value) public returns (bool success)
+      function approve(address _spender, uint256 _value) public returns (bool success)
+      function allowance(address _owner, address _spender) public view returns (uint256 remaining)
+
+      event Transfer(address indexed _from, address indexed _to, uint256 _value)
+      event Approval(address indexed _owner, address indexed _spender, uint256 _value)
+    }
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{ERC-20 : metadata}
+  Le nom et le symbole d'un token ERC-20 sont encodés dans le contrat avec les fonctions \solidity{name} et \solidity{symbol}.
+
+  \begin{minted}{solidity}
+    contract ERC20 {
+      function name() public view returns (string) {
+        return "MyToken";
+      }
+
+      function symbol() public view returns (string) {
+        return "MYT";
+      }
+    }
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{ERC-20 : decimals}
+  Solidity ne supporte pas les nombres flottants donc il n'est a priori pas possible d'échanger 0.5 MYT. La technique consiste à considérer que :
+
+  $$1\text{MYT} = 1\underbrace{000000000000000000}_\text{decimals = 18}$$
+
+  \begin{minted}{solidity}
+    contract ERC20 {
+      function decimals() public view returns (uint8) {
+        return 18;
+      }
+    }
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{ERC-20 : \texttt{transfer} de tokens}
+  \begin{itemize}
+    \item Le nombre de tokens détenus par une adresse s'obtient avec la fonction \solidity{balanceOf}.
+    \item Une adresse peut envoyer des tokens à une autre adresse avec la fonction \solidity{function transfer(address to, uint256 amount)}. Contraintes :\begin{itemize}
+            \item \solidity{to} ne peut pas être l'adresse zéro
+            \item \solidity{msg.sender} doit posséder au moins \solidity{amount} tokens
+          \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{ERC-20 : \texttt{transferFrom}}
+  Intégrer les tokens ERC-20 avec d'autres smart contracts nécessite de pouvoir transférer au nom de l'utilisateur.
+
+  Cela permet notamment d'intégrer des fonctionnalités du type \enquote{envoyez des tokens et pourrez faire la chose X}.
+
+  Exemple : envoyez 1 USDC et receivez 5 MYT.
+
+  \begin{minted}{solidity}
+    contract Sale {
+      MyToken myt;
+      ERC20 usdc;
+
+      function buy(uint256 amount) public {
+        usdc.transferFrom(msg.sender, address(this), amount);
+        myt.mint(address(this), amount);
+      }
+    }
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{ERC-20 : \texttt{allowance}}
+  Problème : il faut protéger la fonction \solidity{function transferFrom}
+
+  \begin{block}{Définition : allowance}
+    Dans le contexte du standard ERC-20, \textbf{allowance} fait référence à une fonctionnalité qui permet à une adresse Ethereum spécifique d'accéder à un certain nombre de tokens détenus par une autre adresse Ethereum et de les transférer ultérieurement.
+
+    L'allowance est souvent utilisée dans le cadre des transferts de tokens ERC-20 à des tiers de confiance, tels que des contrats ou des dApps (applications décentralisées).
+    Elle permet à un propriétaire de tokens de définir une autorisation spécifique pour un dépensier donné.
+    Cette autorisation est enregistrée dans le smart contract du token ERC-20.
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{ERC-20 : \texttt{allowance}}
+  \begin{columns}
+    \begin{column}{0.4\textwidth}
+      La fonction \solidity{approve} permet de définir l'\solidity{allowance} d'une adresse Ethereum.
+
+      Reprenons le contrat \texttt{Sale} avec les contrats :
+
+      \begin{itemize}
+        \item Bob, notre utilisateur
+        \item \texttt{USDC}, un stablecoin
+        \item \texttt{MyToken}, notre token ERC20
+        \item \texttt{Sale}, qui vend des MYT contre des USDC
+      \end{itemize}
+
+      Nous allons analyser l'utilisation de l'allowance par Bob.
+    \end{column}
+
+    \begin{column}{0.57\textwidth}
+      Situation initiale (\solidity{msg.sender = address(Bob)}):
+
+      \begin{itemize}
+        \item \solidity{USDC.balanceOf(address(Bob)) = 10000}
+        \item \solidity{USDC.allowance(address(Sale)) = 0}
+        \item \solidity{MyToken.balanceOf(address(Bob)) = 0}
+      \end{itemize}
+
+      Bob envoie \solidity{USDC.approve(address(Sale), 2000)}
+      \begin{itemize}
+        \item \solidity{USDC.allowance(address(Sale)) = 2000}
+      \end{itemize}
+
+      Bob envoie \solidity{Sale.buy(1000)}
+      \begin{itemize}
+        \item \solidity{USDC.balanceOf(address(Bob)) = 9000}
+        \item \solidity{USDC.allowance(address(Sale)) = 1000}
+        \item \solidity{MyToken.balanceOf(address(Bob)) = 5000}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{ERC-20 : \texttt{increaseAllowance} / \texttt{decreaseAllowance}}
+  En plus de la fonction \solidity{approve} certaines implémentations exposent des fonction non-standard permettant de contrôller plus finement l'\solidity{allowance}.,
+  \begin{itemize}
+    \item \solidity{increaseAllowance} qui correspond à l'opération \solidity{allowance[spender] += amount}
+    \item \solidity{decreaseAllowance} qui correspond à l'opération \solidity{allowance[spender] -= amount}
+  \end{itemize}
+
+  Ces deux fonctions sont notamment présentent dans l'implémentation d'OpenZeppelin.
+\end{frame}
+
+\begin{frame}[fragile]{ERC-20 : avec OpenZeppelin}
+  \begin{columns}
+    \begin{column}{0.47\textwidth}
+      \begin{center}
+
+        \resizebox{0.5\textwidth}{!}{
+          \includegraphics{img/openzeppelin.png}
+        }
+      \end{center}
+
+      OpenZeppelin est une bibliothèque de smart-contracts contenant notamment une implémentation du standard ERC-20.
+
+      \begin{itemize}
+        \item GitHub : \href{https://github.com/OpenZeppelin/openzeppelin-contracts}{OpenZeppelin/openzeppelin-contracts}
+        \item Installer : \mintinline{bash}{forge install openzeppelin/openzeppelin-contracts}
+      \end{itemize}
+    \end{column}
+
+    \hspace{0.03\textwidth}
+
+    \begin{column}{0.47\textwidth}
+      \begin{minted}{solidity}
+        import { ERC20 } from "openzeppelin";
+  
+        contract MyToken is ERC20 {
+          constructor() ERC20("MyToken", "MYT") {
+            _mint(msg.sender, 1000000000e18);
+          }
+        }
+      \end{minted}
+
+      $\Rightarrow$ c'est tout ! À vous de décider des fonctionnalités de votre token ERC-20 !
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{ERC-721}
+  Le standard ERC-721 défini les tokens \enquote{non-fongibles}, appelées \enquote{Non-Fungible Tokens}.
+
+  \begin{block}{Définition : token non fongible (NFT)}
+    Un token non fongible (NFT) est un type de token unique et indivisible sur une blockchain. Chaque NFT est distinct et possède des caractéristiques qui le rendent unique.
+
+    \begin{itemize}
+      \item Les NFTs tirent leur valeur de leur unicité, de leur rareté et de leur authenticité, ce qui les rend particulièrement adaptés à la représentation d'actifs numériques uniques et à leur propriété vérifiable sur la blockchain.
+      \item Chaque NFT possède un identifiant unique qui le distingue des autres tokens, et ses propriétés et sa provenance sont enregistrées dans le registre immuable de la blockchain.
+    \end{itemize}
+  \end{block}
+
+  Exemple hors blockchain : certaines anciennes pièces de monnaies valent plus que leur valeur faciale (numismatique).
+\end{frame}
+
+\begin{frame}[fragile]{ERC-721 interface}
+  \begin{minted}{solidity}
+    interface ERC721 {
+      function balanceOf(address _owner) external view returns (uint256);
+      function ownerOf(uint256 _tokenId) external view returns (address);
+      function safeTransferFrom(address _from, address _to, uint256 _tokenId, bytes data) external payable;
+      function safeTransferFrom(address _from, address _to, uint256 _tokenId) external payable;
+      function transferFrom(address _from, address _to, uint256 _tokenId) external payable;
+      function approve(address _approved, uint256 _tokenId) external payable;
+      function setApprovalForAll(address _operator, bool _approved) external;
+      function getApproved(uint256 _tokenId) external view returns (address);
+      function isApprovedForAll(address _owner, address _operator) external view returns (bool);
+    }
+  \end{minted}
+\end{frame}
+
+\begin{frame}{ERC-1155}
+
+\end{frame}

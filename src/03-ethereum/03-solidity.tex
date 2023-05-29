@@ -51,8 +51,8 @@
   La ligne 1 défini la licence du fichier :
 
   \begin{itemize}
-    \item \mintinline{solidity}{UNLICENSED} signifie que le code est complètement privé
-    \item \mintinline{solidity}{pragma solidity ^0.8.13;} version de Solidity compatible avec le fichier
+    \item \solidity{UNLICENSED} signifie que le code est complètement privé
+    \item \solidity{pragma solidity ^0.8.13;} version de Solidity compatible avec le fichier
   \end{itemize}
 \end{frame}
 
@@ -90,25 +90,26 @@
 
 \begin{frame}{Solidity : types primitifs}
   \begin{itemize}
-    \item \mintinline{solidity}{uint} un entier non signé sur 256 bits
-    \item \mintinline{solidity}{uint8} un entier non signé sur 8 bits
-    \item \mintinline{solidity}{uint32} un entier non signé sur 32 bits
-    \item \mintinline{solidity}{uint256} un entier non signé sur 256 bits
-    \item \mintinline{solidity}{int} un entier signé sur 256 bits
-    \item \mintinline{solidity}{int32} un entier signé sur 32 bits
-    \item \mintinline{solidity}{address} une adresse Ethereum
-    \item \mintinline{solidity}{string} une chaîne de caractères
-    \item \mintinline{solidity}{struct} structure, au sens langage C du terme
-    \item \mintinline{solidity}{mapping} une association clé-valeur
+    \item \solidity{uint} un entier non signé sur 256 bits
+    \item \solidity{uint8} un entier non signé sur 8 bits
+    \item \solidity{uint32} un entier non signé sur 32 bits
+    \item \solidity{uint256} un entier non signé sur 256 bits
+    \item \solidity{int} un entier signé sur 256 bits
+    \item \solidity{int32} un entier signé sur 32 bits
+    \item \solidity{address} une adresse Ethereum
+    \item \solidity{string} une chaîne de caractères
+    \item \solidity{struct} structure, au sens langage C du terme
+    \item \solidity{mapping} une association clé-valeur
   \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Solidity : le type \texttt{address}}
-  Le type \mintinline{solidity}{address} est spécial et possède des propriétés :
+  Le type \solidity{address} est spécial et possède des propriétés :
 
   \begin{itemize}
-    \item \mintinline{solidity}{<address>.balance} le montant d'ether détenu par l'adresse
-    \item \mintinline{solidity}{<address>.code} le code à l'adresse (vide pour les EOA)
+    \item \solidity{<address>.balance} le montant d'ether détenu par l'adresse
+    \item \solidity{<address>.code} le code à l'adresse (vide pour les EOA)
+    \item Dans un contrat, \solidity{address(this).balance} donne la balance du contrat
   \end{itemize}
 \end{frame}
 
@@ -117,8 +118,8 @@
     Un message représente un appel d'une fonction d'un smart contract.
 
     \begin{itemize}
-      \item \mintinline{solidity}{msg.sender} expéditeur du message
-      \item \mintinline{solidity}{msg.value} nombre d'Ether envoyés avec le message
+      \item \solidity{msg.sender} expéditeur du message
+      \item \solidity{msg.value} nombre d'Ether envoyés avec le message
     \end{itemize}
   \end{block}
 
@@ -127,8 +128,8 @@
     Metadata du bloc actuel.
 
     \begin{itemize}
-      \item \mintinline{solidity}{block.number} numéro du bloc actuel
-      \item \mintinline{solidity}{block.timestamp} tinmestamp UNIX en secondes
+      \item \solidity{block.number} numéro du bloc actuel
+      \item \solidity{block.timestamp} tinmestamp UNIX en secondes
     \end{itemize}
   \end{block}
 \end{frame}
@@ -136,7 +137,7 @@
 \begin{frame}[fragile]{Solidity : contrôle de flow}
   \begin{columns}
     \begin{column}{0.47\textwidth}
-      \mintinline{solidity}{if} / \mintinline{solidity}{else} / \mintinline{solidity}{else if}
+      \solidity{if} / \solidity{else} / \solidity{else if}
 
       \begin{minted}{solidity}
         if (cond) {
@@ -148,11 +149,11 @@
         }
       \end{minted}
 
-      Note : pas de \mintinline{solidity}{switch / case} en Solidity.
+      Note : pas de \solidity{switch / case} en Solidity.
     \end{column}
     \vspace{0.03\textwidth}
     \begin{column}{0.47\textwidth}
-      \mintinline{solidity}{for} / \mintinline{solidity}{while}
+      \solidity{for} / \solidity{while}
 
       \begin{minted}{solidity}
         for (uint256 i = 0; i < n; i++) {
@@ -164,7 +165,7 @@
         }
       \end{minted}
 
-      Note : pas de \mintinline{solidity}{do while} en Solidity.
+      Note : pas de \solidity{do while} en Solidity.
     \end{column}
   \end{columns}
 \end{frame}
@@ -219,20 +220,22 @@
   \end{columns}
 \end{frame}
 
+\begin{frame}[fragile]{Solidity : \texttt{modifier}}
+  \begin{block}{Définition : \texttt{modifier}}
+    En Solidity, un \enquote{modifier} est une fonction spéciale qui permet de modifier le comportement d'autres fonctions dans un contrat intelligent.
+    Les modifiers fournissent un moyen pratique de réutiliser du code et d'ajouter des conditions supplémentaires ou des vérifications avant l'exécution d'une fonction.
+  \end{block}
 
 
-\begin{frame}[fragile]{Exemple : cryptomonnaie}
-  \begin{minted}{solidity}
-    contract Mewo {
-      mapping(address => uint256) public balances;
-
-      function transfer(address to, uint256 amount) public {
-        require(balances[msg.sender] >= amount, "Insufficient balance");
-        balances[msg.sender] -= amount;
-        balances[to] += amount;
-      }
+  \begin{block}{Syntaxe : \texttt{modifier}}
+    \begin{minted}{solidity}
+    modifier exampleModifier() {
+      _; // Continue function execution
     }
+
+    function foobar() public exampleModifier {}
   \end{minted}
+  \end{block}
 \end{frame}
 
 \begin{frame}[fragile]{Solidity : interfaces}
@@ -253,18 +256,59 @@
   \end{block}
 \end{frame}
 
+\begin{frame}[fragile]{Solidity : events}
+  \begin{itemize}
+    \item La blockchain est \enquote{isolée} du monde extérieur : impossible de contacter le monde extérieur (pas de requête HTTP, notifications, etc.).
+    \item Solidity permet de définir des events qui peuvent être écoutés à l'extérieur de la blockchain.
+  \end{itemize}
+
+  \begin{minted}{solidity}
+    // Event declaration
+    event Minted(address indexed to, uint256 amount);
+
+    function transfer(address to, uint256 amount) {
+      balanceOf[to] += amount;
+      emit Minted(to, value); // Event emission
+    }
+  \end{minted}
+
+  \begin{minted}{typescript}
+    client.watchEvent({
+      address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+      event: parseAbiItem('event Minted(address indexed to, uint256 amount)'), 
+      onLogs: logs => console.log(logs)
+    })
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Solidity : events indexed}
+  Les events peuvent avoir certains de leurs arguments marqués comme \solidity{indexed}.
+  Cela permet de filtrer sur les valeurs ces arguments.
+
+  Exemple : \solidity{event Transfer(address indexed from, address indexed to, uint256 value)}.
+
+  \begin{itemize}
+    \item Si on considère deux addresses \texttt{x} et \texttt{y}:
+    \item Il est possible d'écouter les transactions émises par \texttt{x}
+    \item Il est possible d'écouter les transactions reçues par \texttt{x}
+    \item Il est possible d'écouter les transactions émises par \texttt{x} vers \texttt{y}
+    \item Il n'est pas possible d'écouter les transactions de 1 ETH ou moins car \solidity{uint256 value} n'est pas \solidity{indexed}.
+
+  \end{itemize}
+\end{frame}
+
 \begin{frame}[fragile]{Solidity : erreurs}
   Souvent, il faut arrêter l'exécition d'un smart contract et renvoyer une erreur (exécution non autorisée, opération impossible, etc.).
 
   \begin{columns}
     \begin{column}{0.47\textwidth}
-      Fonction \mintinline{solidity}{revert(bool assertion, string message)}
+      Fonction \solidity{revert(bool assertion, string message)}
 
-      Revert si \mintinline{solidity}{assertion} est évalué à false.
+      Revert si \solidity{assertion} est évalué à false.
     \end{column}
     \vspace{0.01\textwidth}
     \begin{column}{0.47\textwidth}
-      Custom errrors: permet de déclarer des erreurs avec des paramètres.
+      Custom errors: permet de déclarer des erreurs avec des paramètres.
 
       \begin{minted}{solidity}
         contract Foo {
@@ -298,6 +342,20 @@
   \end{minted}
 \end{frame}
 
+\begin{frame}[fragile]{Exemple : cryptomonnaie}
+  \begin{minted}{solidity}
+    contract Mewo {
+      mapping(address => uint256) public balances;
+
+      function transfer(address to, uint256 amount) public {
+        require(balances[msg.sender] >= amount, "Insufficient balance");
+        balances[msg.sender] -= amount;
+        balances[to] += amount;
+      }
+    }
+  \end{minted}
+\end{frame}
+
 \begin{frame}[fragile]{Exemple : cryptomonnaie avec mint}
   \begin{minted}{solidity}
     contract Mewo {
@@ -314,24 +372,6 @@
       }
     }
   \end{minted}
-\end{frame}
-
-\begin{frame}[fragile]{Solidity : \texttt{modifier}}
-  \begin{block}{Définition : \texttt{modifier}}
-    En Solidity, un \enquote{modifier} est une fonction spéciale qui permet de modifier le comportement d'autres fonctions dans un contrat intelligent.
-    Les modifiers fournissent un moyen pratique de réutiliser du code et d'ajouter des conditions supplémentaires ou des vérifications avant l'exécution d'une fonction.
-  \end{block}
-
-
-  \begin{block}{Syntaxe : \texttt{modifier}}
-    \begin{minted}{solidity}
-    modifier exampleModifier() {
-      _; // Continue function execution
-    }
-
-    function foobar() public exampleModifier {}
-  \end{minted}
-  \end{block}
 \end{frame}
 
 \begin{frame}[fragile]{Exemple : cryptomonnaie avec mint protégé}

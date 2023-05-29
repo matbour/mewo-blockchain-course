@@ -2,6 +2,7 @@
 \setlength{\fboxsep}{1em}
 \setlength{\parskip}{\smallskipamount}
 
+% Minted configuration
 \setminted{
   breaklines,
   xleftmargin=1cm,
@@ -9,6 +10,12 @@
   autogobble,
   fontsize=\footnotesize
 }
+
+% See https://tex.stackexchange.com/a/406872/297956
+\makeatletter
+\newcommand{\currentfontsize}{\fontsize{\f@size}{\f@baselineskip}\selectfont}
+\makeatother
+\setmintedinline{fontsize=\currentfontsize}
 
 \usetikzlibrary{shapes.geometric,positioning}
 \pgfplotsset{compat=1.18}

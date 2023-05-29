@@ -1,0 +1,71 @@
+\framewithtitle{Tester avec Foundry}
+
+\begin{frame}{Tester un contrat ?}
+  Pourquoi ?
+
+  \begin{itemize}
+    \item Les contrats sont des programmes exposés aux utilisateurs finaux $\Rightarrow$ un bug peut engendrer \textbf{une perte financière} pour l'utilisateur
+    \item Les contrats sont immutables = une fois déployés, il ne peuvent être modifiés
+    \item En gros, les contrats doivent être \textbf{parfaits du premier coup}.
+  \end{itemize}
+
+  Comment ?
+
+  \begin{enumerate}
+    \item Imaginer et créer un scénario (cela revient à définir les variables d'état d'un contrat)
+    \item Exécuter la ou les transactions à tester
+    \item Vérifier que le nouvel état correspond à celui attendu.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Exemple : Ownable}
+  \begin{columns}
+    \begin{column}{0.47\textwidth}
+      \begin{minted}{solidity}
+        contract Ownable {
+          address public owner;
+    
+          modifier onlyOwner() {
+            require(msg.sender == owner);
+          }
+    
+          function transferOwnership(address _owner) onlyOwner {
+            owner = _owner;
+          }
+        }      
+      \end{minted}
+    \end{column}
+
+    \begin{column}{0.47\textwidth}
+      Tester la fonction \solidity{transferOwnership}, c'est :
+
+      \begin{enumerate}
+        \item \solidity{transferOwnership} renvoie une erreur si \solidity{msg.sender} n'est pas l'\solidity{owner}
+        \item \solidity{transferOwnership} ne renvoie pas d'erreur si \solidity{msg.sender} est l'\solidity{owner} et que le nouvel \solidity{owner} est \solidity{msg.sender}
+      \end{enumerate}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Foundry : créer un test}
+  \begin{itemize}
+    \item Dans Foundry, les tests s'écrivent en Solidity.
+    \item Par convention, on teste le fichier \texttt{Contract.sol} dans \texttt{Contract.\textbf{t}.sol}
+    \item Deux méthodes possibles pour placer les tests :
+          \begin{itemize}
+            \item juste à côté du fichier source
+            \item dans le dossier \texttt{test}
+          \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Foundry : cheat codes}
+  Les cheatcodes permettent d'effectuer des actions normalement impossibles dans la blockchain.
+  Voici les principaux :
+
+  \begin{itemize}
+    \item \solidity{hoax(address who)} le prochain call sera fait en tant que \solidity{who}
+    \item \solidity{hoax(address who, uint256 amount)} le prochain call sera fait en tant que \solidity{who} et sa balance en ether sera de \solidity{amount}
+    \item \solidity{deal(address who, uint256 amount)} change la balance de \solidity{who} en \solidity{amount}
+  \end{itemize}
+\end{frame}
