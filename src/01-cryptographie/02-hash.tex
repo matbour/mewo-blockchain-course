@@ -36,8 +36,6 @@
 
   \begin{block}{Déterminisme}
     Pour une même valeur d'entrée, la fonction de hachage doit toujours générer la même valeur de hachage. Cela permet d'obtenir des résultats cohérents et reproductibles.
-
-
   \end{block}
 \end{frame}
 
@@ -75,6 +73,16 @@
     Ces performances sont tellement cruciales que certains algorithmes de hachage sont directement implémentés en tant qu'instructions dans les processeurs.
     Par exemple, les algorithmes SHA-1 et SHA-256 sont \textbf{matériellement} présents dans tous les processeurs Intel depuis 2013.
   \end{block}
+\end{frame}
+
+\begin{frame}{Caractéristiques d'une fonction de hachage}
+  \begin{figure}
+    \resizebox{0.8\textwidth}{!}{
+      \includegraphics{img/sha3-schema.png}
+    }
+
+    \caption{Implémentation simplifié du SHA-3 sur un FPGA}
+  \end{figure}
 \end{frame}
 
 \begin{frame}{Caractéristiques d'une fonction de hachage}
