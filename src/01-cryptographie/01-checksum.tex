@@ -33,3 +33,33 @@
       80
     \end{minted}
 \end{frame}
+
+\begin{frame}{Somme de contrôle : exemple de l'ISBN}
+  L'ISBN-13 (International Standard Book Number) utilise une somme de contrôle pour détecter les erreurs de saisie :
+
+  \begin{itemize}
+    \item Chaque chiffre est multiplié alternativement par 1 et 3
+    \item La somme est calculée
+    \item Le dernier chiffre est choisi pour que la somme soit divisible par 10
+  \end{itemize}
+
+  Exemple avec ISBN : 978-2-1234-5680-\textbf{3}
+  
+  $$(9\times1 + 7\times3 + 8\times1 + 2\times3 + 1\times1 + 2\times3 + 3\times1 + 4\times3 + 5\times1 + 6\times3 + 8\times1 + 0\times3 + \textbf{3}\times1) \bmod 10 = 0$$
+\end{frame}
+
+\begin{frame}{Somme de contrôle : codes-barres UPC}
+  Le code UPC (Universal Product Code) à 12 chiffres utilise une somme de contrôle :
+
+  \begin{enumerate}
+    \item Additionner les chiffres en position impaire $\times 3$
+    \item Additionner les chiffres en position paire
+    \item La somme de contrôle complète à $10$
+  \end{enumerate}
+
+  \begin{center}
+    \includegraphics[width=0.5\textwidth]{img/upc-barcode.png}
+    
+    Exemple : 042100005264
+  \end{center}
+\end{frame}

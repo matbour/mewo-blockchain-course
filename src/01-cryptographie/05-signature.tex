@@ -26,3 +26,149 @@
     \item[$\Rightarrow$] Alice a \textbf{signé} le message \textquote{Alice donne 1 BTC à Bob}
   \end{enumerate}
 \end{frame}
+
+\begin{frame}{Algorithmes de signature numérique}
+  \begin{itemize}
+    \item RSA-PSS
+      \begin{itemize}
+        \item Version signature de RSA
+        \item Padding probabiliste
+        \item Largement utilisé
+      \end{itemize}
+    \item ECDSA
+      \begin{itemize}
+        \item Basé sur les courbes elliptiques
+        \item Utilisé dans Bitcoin
+        \item Signatures plus courtes que RSA
+      \end{itemize}
+    \item EdDSA
+      \begin{itemize}
+        \item Variante d'ECDSA avec Curve25519
+        \item Plus rapide et plus sûr
+        \item Utilisé dans SSH et Signal
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exemple pratique avec Node.js}
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      \begin{minted}[fontsize=\scriptsize]{javascript}
+const crypto = require('crypto');
+
+// Génération des clés
+const { privateKey, publicKey } = 
+  crypto.generateKeyPairSync('ec', {
+    namedCurve: 'secp256k1',
+    publicKeyEncoding: {
+      type: 'spki',
+      format: 'pem'
+    },
+    privateKeyEncoding: {
+      type: 'pkcs8',
+      format: 'pem'
+    }
+  });
+      \end{minted}
+    \end{column}
+
+    \begin{column}{0.48\textwidth}
+      \begin{minted}[fontsize=\scriptsize]{javascript}
+// Message à signer
+const message = "Transaction: Alice -> Bob 1 BTC";
+
+// Signature
+const signer = crypto.createSign('SHA256');
+signer.update(message);
+const signature = signer.sign(privateKey);
+
+// Vérification
+const verifier = crypto.createVerify('SHA256');
+verifier.update(message);
+const isValid = verifier.verify(
+  publicKey, 
+  signature
+);
+console.log(isValid ? "Valide!" : "Invalide!");
+      \end{minted}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Applications des signatures numériques}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      Documents électroniques :
+      \begin{itemize}
+        \item Contrats numériques
+        \item Factures électroniques
+        \item Documents administratifs
+      \end{itemize}
+
+      Code et logiciels :
+      \begin{itemize}
+        \item Signature de code
+        \item Mises à jour système
+        \item Paquets logiciels
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.5\textwidth}
+      Blockchain :
+      \begin{itemize}
+        \item Transactions
+        \item Smart contracts
+        \item Gouvernance DAO
+      \end{itemize}
+
+      Communication :
+      \begin{itemize}
+        \item Email (S/MIME, PGP)
+        \item Messages instantanés
+        \item Certificats TLS
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Aspects juridiques}
+  \begin{block}{Cadre légal}
+    En Europe, le règlement eIDAS définit trois niveaux de signature électronique :
+    \begin{itemize}
+      \item Simple : basique, peu de valeur légale
+      \item Avancée : cryptographiquement sûre
+      \item Qualifiée : maximum de valeur légale
+    \end{itemize}
+  \end{block}
+
+  Exigences pour une signature qualifiée :
+  \begin{itemize}
+    \item Certificat qualifié
+    \item Dispositif sécurisé de création
+    \item Horodatage qualifié
+    \item Conservation à long terme
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Bonnes pratiques}
+  \begin{itemize}
+    \item Sécurité des clés privées
+      \begin{itemize}
+        \item Stockage sécurisé (HSM)
+        \item Sauvegarde et récupération
+        \item Rotation périodique
+      \end{itemize}
+    \item Vérification
+      \begin{itemize}
+        \item Validation du certificat
+        \item Vérification de révocation
+        \item Horodatage
+      \end{itemize}
+    \item Format et standards
+      \begin{itemize}
+        \item PAdES pour PDF
+        \item XAdES pour XML
+        \item CAdES pour données binaires
+      \end{itemize}
+  \end{itemize}
+\end{frame}

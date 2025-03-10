@@ -61,3 +61,130 @@
 
   Problème : comment partager la clé de manière sécurisée ?
 \end{frame}
+
+\begin{frame}{Modes de chiffrement}
+  \begin{columns}
+    \begin{column}{0.6\textwidth}
+      \begin{itemize}
+        \item ECB (Electronic CodeBook)
+          \begin{itemize}
+            \item Le plus simple mais le moins sécurisé
+            \item Motifs visibles dans les données chiffrées
+          \end{itemize}
+        \item CBC (Cipher Block Chaining)
+          \begin{itemize}
+            \item Utilise un vecteur d'initialisation (IV)
+            \item Chaque bloc dépend du précédent
+          \end{itemize}
+        \item CTR (Counter)
+          \begin{itemize}
+            \item Transforme le chiffrement par bloc en flux
+            \item Parallélisable
+          \end{itemize}
+        \item GCM (Galois/Counter Mode)
+          \begin{itemize}
+            \item Authentification intégrée
+            \item Recommandé pour TLS
+          \end{itemize}
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{img/encryption-modes.png}
+      \end{center}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Exemple pratique avec Node.js}
+  \begin{minted}[fontsize=\scriptsize]{javascript}
+    const crypto = require('crypto');
+
+    // Génération de la clé et du vecteur d'initialisation
+    const key = crypto.randomBytes(32); // 256 bits pour AES-256
+    const iv = crypto.randomBytes(16);  // 128 bits pour AES
+
+    // Chiffrement
+    function encrypt(text) {
+      const cipher = crypto.createCipheriv(
+        'aes-256-cbc', key, iv
+      );
+      let encrypted = cipher.update(text, 'utf8', 'hex');
+      encrypted += cipher.final('hex');
+      return encrypted;
+    }
+
+    // Déchiffrement
+    function decrypt(encrypted) {
+      const decipher = crypto.createDecipheriv(
+        'aes-256-cbc', key, iv
+      );
+      let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+      decrypted += decipher.final('utf8');
+      return decrypted;
+    }
+
+    const message = "Message secret";
+    const encrypted = encrypt(message);
+    console.log("Chiffré:", encrypted);
+    console.log("Déchiffré:", decrypt(encrypted));
+  \end{minted}
+
+  \begin{itemize}
+    \item Utilise AES-256 en mode CBC
+    \item Gestion explicite de la clé et de l'IV
+    \item Format hexadécimal pour le texte chiffré
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Applications courantes}
+  \begin{itemize}
+    \item Chiffrement de disque
+      \begin{itemize}
+        \item BitLocker (Windows)
+        \item FileVault (macOS)
+        \item LUKS (Linux)
+      \end{itemize}
+    \item Communications sécurisées
+      \begin{itemize}
+        \item WiFi (WPA3)
+        \item VPN
+        \item Session TLS
+      \end{itemize}
+    \item Stockage cloud
+      \begin{itemize}
+        \item Chiffrement côté client
+        \item Chiffrement au repos
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Performance et sécurité}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      Tailles de clé courantes :
+      \begin{itemize}
+        \item AES-128 : 128 bits
+        \item AES-192 : 192 bits
+        \item AES-256 : 256 bits
+      \end{itemize}
+
+      Performances :
+      \begin{itemize}
+        \item Instructions AES-NI
+        \item \textasciitilde 1 Go/s sur CPU moderne
+        \item Adapté au chiffrement temps réel
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.5\textwidth}
+      Bonnes pratiques :
+      \begin{itemize}
+        \item Rotation régulière des clés
+        \item Stockage sécurisé des clés
+        \item Utilisation de sel (IV)
+        \item Mode authentifié (GCM)
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}

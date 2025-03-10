@@ -127,3 +127,101 @@
     Comparez sa valeur avec les autres.
   \end{block}
 \end{frame}
+
+\begin{frame}{Applications pratiques du hachage}
+  \begin{itemize}
+    \item Stockage sécurisé des mots de passe
+      \begin{itemize}
+        \item Jamais en clair dans la base de données
+        \item Utilisation de sel (salt) pour renforcer la sécurité
+        \item Algorithmes spécialisés : bcrypt, Argon2
+      \end{itemize}
+    \item Intégrité des fichiers
+      \begin{itemize}
+        \item Vérification des téléchargements
+        \item Détection de corruption
+        \item Git : identification des commits
+      \end{itemize}
+    \item Blockchain
+      \begin{itemize}
+        \item Chaînage des blocs
+        \item Preuve de travail (PoW)
+        \item Merkle Trees
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exemple pratique : stockage des mots de passe}
+  \begin{minted}[fontsize=\scriptsize]{javascript}
+    const bcrypt = require('bcrypt');
+    const saltRounds = 10;
+
+    // Hashage d'un mot de passe
+    async function hashPassword(password) {
+      const salt = await bcrypt.genSalt(saltRounds);
+      const hash = await bcrypt.hash(password, salt);
+      
+      // Vérification
+      const isValid = await bcrypt.compare('MonMotDePasse123', hash);
+      console.log(isValid ? 'Mot de passe correct' : 'Incorrect');
+    }
+
+    hashPassword('MonMotDePasse123');
+  \end{minted}
+
+  \begin{itemize}
+    \item Le sel est unique pour chaque utilisateur
+    \item bcrypt inclut automatiquement le sel dans le hash
+    \item Résistant aux attaques par table arc-en-ciel
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Merkle Trees dans la blockchain}
+  \begin{columns}
+    \begin{column}{0.6\textwidth}
+      Structure de données basée sur le hachage :
+      \begin{itemize}
+        \item Arbre binaire de hashes
+        \item Chaque feuille = hash d'une transaction
+        \item Nœuds internes = hash des enfants
+        \item Racine = hash unique du bloc
+      \end{itemize}
+
+      Avantages :
+      \begin{itemize}
+        \item Vérification efficace des transactions
+        \item Preuve d'inclusion simple
+        \item Économie d'espace
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.4\textwidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{img/merkle-tree.png}
+      \end{center}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Git et le hachage}
+  \begin{minted}{bash}
+    # Voir le hash du dernier commit
+    $ git rev-parse HEAD
+    a1b2c3d4e5f6...
+
+    # Contenu d'un commit
+    $ git cat-file -p a1b2c3d4e5f6
+    tree 7a8b9c0d1e2f...
+    parent 3e4f5g6h7i8j...
+    author John Doe <john@example.com>
+    committer John Doe <john@example.com>
+
+    Initial commit
+  \end{minted}
+
+  \begin{itemize}
+    \item Chaque objet Git a un hash unique
+    \item Le hash dépend du contenu et des métadonnées
+    \item Permet de détecter toute modification
+  \end{itemize}
+\end{frame}

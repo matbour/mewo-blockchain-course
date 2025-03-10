@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="800" height="400" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+    <!-- ECB Mode -->
+    <g transform="translate(0,0)">
+        <text x="100" y="30" font-family="Arial" font-size="16" font-weight="bold">Mode ECB</text>
+        
+        <!-- Input Blocks -->
+        <rect x="20" y="50" width="60" height="40" fill="#FFD700" stroke="#000"/>
+        <rect x="90" y="50" width="60" height="40" fill="#98FB98" stroke="#000"/>
+        <rect x="160" y="50" width="60" height="40" fill="#87CEEB" stroke="#000"/>
+        
+        <!-- Encryption Blocks -->
+        <rect x="20" y="150" width="60" height="60" fill="#D3D3D3" stroke="#000"/>
+        <text x="50" y="185" text-anchor="middle" font-family="Arial" font-size="14">AES</text>
+        <rect x="90" y="150" width="60" height="60" fill="#D3D3D3" stroke="#000"/>
+        <text x="120" y="185" text-anchor="middle" font-family="Arial" font-size="14">AES</text>
+        <rect x="160" y="150" width="60" height="60" fill="#D3D3D3" stroke="#000"/>
+        <text x="190" y="185" text-anchor="middle" font-family="Arial" font-size="14">AES</text>
+        
+        <!-- Output Blocks -->
+        <rect x="20" y="270" width="60" height="40" fill="#FF6B6B" stroke="#000"/>
+        <rect x="90" y="270" width="60" height="40" fill="#4ECDC4" stroke="#000"/>
+        <rect x="160" y="270" width="60" height="40" fill="#45B7D1" stroke="#000"/>
+        
+        <!-- Arrows -->
+        <line x1="50" y1="90" x2="50" y2="150" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <line x1="120" y1="90" x2="120" y2="150" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <line x1="190" y1="90" x2="190" y2="150" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <line x1="50" y1="210" x2="50" y2="270" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <line x1="120" y1="210" x2="120" y2="270" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <line x1="190" y1="210" x2="190" y2="270" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+    </g>
+
+    <!-- CBC Mode -->
+    <g transform="translate(280,0)">
+        <text x="100" y="30" font-family="Arial" font-size="16" font-weight="bold">Mode CBC</text>
+        
+        <!-- IV Block -->
+        <rect x="20" y="100" width="60" height="40" fill="#FFB6C1" stroke="#000"/>
+        <text x="50" y="125" text-anchor="middle" font-family="Arial" font-size="12">IV</text>
+        
+        <!-- Input Blocks -->
+        <rect x="90" y="50" width="60" height="40" fill="#FFD700" stroke="#000"/>
+        <rect x="160" y="50" width="60" height="40" fill="#98FB98" stroke="#000"/>
+        <rect x="230" y="50" width="60" height="40" fill="#87CEEB" stroke="#000"/>
+        
+        <!-- XOR symbols -->
+        <circle cx="120" cy="120" r="15" fill="white" stroke="#000"/>
+        <text x="120" y="125" text-anchor="middle" font-family="Arial" font-size="14">⊕</text>
+        <circle cx="190" cy="120" r="15" fill="white" stroke="#000"/>
+        <text x="190" y="125" text-anchor="middle" font-family="Arial" font-size="14">⊕</text>
+        <circle cx="260" cy="120" r="15" fill="white" stroke="#000"/>
+        <text x="260" y="125" text-anchor="middle" font-family="Arial" font-size="14">⊕</text>
+        
+        <!-- Encryption Blocks -->
+        <rect x="90" y="150" width="60" height="60" fill="#D3D3D3" stroke="#000"/>
+        <text x="120" y="185" text-anchor="middle" font-family="Arial" font-size="14">AES</text>
+        <rect x="160" y="150" width="60" height="60" fill="#D3D3D3" stroke="#000"/>
+        <text x="190" y="185" text-anchor="middle" font-family="Arial" font-size="14">AES</text>
+        <rect x="230" y="150" width="60" height="60" fill="#D3D3D3" stroke="#000"/>
+        <text x="260" y="185" text-anchor="middle" font-family="Arial" font-size="14">AES</text>
+        
+        <!-- Output Blocks -->
+        <rect x="90" y="270" width="60" height="40" fill="#FF6B6B" stroke="#000"/>
+        <rect x="160" y="270" width="60" height="40" fill="#4ECDC4" stroke="#000"/>
+        <rect x="230" y="270" width="60" height="40" fill="#45B7D1" stroke="#000"/>
+        
+        <!-- Feedback Arrows -->
+        <path d="M 150 290 L 150 320 L 80 320 L 80 120" fill="none" stroke="#000" stroke-width="2"/>
+        <path d="M 220 290 L 220 320 L 150 320" fill="none" stroke="#000" stroke-width="2"/>
+    </g>
+
+    <!-- CTR Mode -->
+    <g transform="translate(560,0)">
+        <text x="100" y="30" font-family="Arial" font-size="16" font-weight="bold">Mode CTR</text>
+        
+        <!-- Counter Blocks -->
+        <rect x="20" y="50" width="60" height="40" fill="#FFB6C1" stroke="#000"/>
+        <text x="50" y="75" text-anchor="middle" font-family="Arial" font-size="12">Nonce+1</text>
+        <rect x="90" y="50" width="60" height="40" fill="#FFB6C1" stroke="#000"/>
+        <text x="120" y="75" text-anchor="middle" font-family="Arial" font-size="12">Nonce+2</text>
+        <rect x="160" y="50" width="60" height="40" fill="#FFB6C1" stroke="#000"/>
+        <text x="190" y="75" text-anchor="middle" font-family="Arial" font-size="12">Nonce+3</text>
+        
+        <!-- Encryption Blocks -->
+        <rect x="20" y="150" width="60" height="60" fill="#D3D3D3" stroke="#000"/>
+        <text x="50" y="185" text-anchor="middle" font-family="Arial" font-size="14">AES</text>
+        <rect x="90" y="150" width="60" height="60" fill="#D3D3D3" stroke="#000"/>
+        <text x="120" y="185" text-anchor="middle" font-family="Arial" font-size="14">AES</text>
+        <rect x="160" y="150" width="60" height="60" fill="#D3D3D3" stroke="#000"/>
+        <text x="190" y="185" text-anchor="middle" font-family="Arial" font-size="14">AES</text>
+        
+        <!-- XOR symbols -->
+        <circle cx="50" cy="270" r="15" fill="white" stroke="#000"/>
+        <text x="50" y="275" text-anchor="middle" font-family="Arial" font-size="14">⊕</text>
+        <circle cx="120" cy="270" r="15" fill="white" stroke="#000"/>
+        <text x="120" y="275" text-anchor="middle" font-family="Arial" font-size="14">⊕</text>
+        <circle cx="190" cy="270" r="15" fill="white" stroke="#000"/>
+        <text x="190" y="275" text-anchor="middle" font-family="Arial" font-size="14">⊕</text>
+        
+        <!-- Plaintext Blocks -->
+        <rect x="20" y="320" width="60" height="40" fill="#FFD700" stroke="#000"/>
+        <rect x="90" y="320" width="60" height="40" fill="#98FB98" stroke="#000"/>
+        <rect x="160" y="320" width="60" height="40" fill="#87CEEB" stroke="#000"/>
+    </g>
+
+    <!-- Arrow Marker -->
+    <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#000"/>
+        </marker>
+    </defs>
+</svg> 

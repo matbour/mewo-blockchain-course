@@ -12,6 +12,8 @@
     \item Hachage
     \item Chiffrement symétrique/asymétrique
     \item Signature digitale
+    \item Certificats et PKI
+    \item Protocoles cryptographiques modernes
   \end{enumerate}
 \end{frame}
 
@@ -35,6 +37,16 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}{Histoire de la cryptographie}
+  \begin{itemize}
+    \item Antiquité : premiers chiffrements par substitution
+    \item Moyen-Âge : développement des techniques de cryptanalyse
+    \item Renaissance : chiffrements polyalphabétiques (Vigenère)
+    \item 20ème siècle : machines de chiffrement (Enigma)
+    \item Ère moderne : cryptographie numérique et quantique
+  \end{itemize}
+\end{frame}
+
 \begin{frame}{Qu'est-ce que la cryptographie ?}
   \begin{columns}
     \begin{column}{0.65\textwidth}
@@ -55,8 +67,18 @@
   \end{columns}
 \end{frame}
 
+\begin{frame}{Objectifs de la cryptographie}
+  \begin{itemize}
+    \item Confidentialité : protection contre la lecture non autorisée
+    \item Intégrité : détection de modifications non autorisées
+    \item Authentification : vérification de l'identité
+    \item Non-répudiation : impossibilité de nier une action
+  \end{itemize}
+\end{frame}
+
 \input{src/01-cryptographie/01-checksum}
 \input{src/01-cryptographie/02-hash}
 \input{src/01-cryptographie/03-symmetric}
 \input{src/01-cryptographie/04-asymetric}
 \input{src/01-cryptographie/05-signature}
+\input{src/01-cryptographie/06-modern-crypto}

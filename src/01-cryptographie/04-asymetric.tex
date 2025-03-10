@@ -46,3 +46,150 @@
     \item Par la suite, Alice et Bob utilise la clé $K$ et un algorithme de chiffrement symétrique pour communiquer.
   \end{enumerate}
 \end{frame}
+
+\begin{frame}{Algorithmes asymétriques courants}
+  \begin{itemize}
+    \item RSA
+      \begin{itemize}
+        \item Basé sur la factorisation de grands nombres
+        \item Utilisé pour le chiffrement et la signature
+        \item Tailles de clé : 2048-4096 bits
+      \end{itemize}
+    \item ECC (Elliptic Curve Cryptography)
+      \begin{itemize}
+        \item Basé sur les courbes elliptiques
+        \item Plus efficace que RSA (clés plus courtes)
+        \item Courbes populaires : secp256k1 (Bitcoin), Curve25519
+      \end{itemize}
+    \item ElGamal
+      \begin{itemize}
+        \item Basé sur le problème du logarithme discret
+        \item Utilisé dans PGP/GPG
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exemple pratique avec RSA}
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      \begin{minted}[fontsize=\scriptsize]{javascript}
+const crypto = require('crypto');
+
+// Génération des clés
+const { privateKey, publicKey } = 
+  crypto.generateKeyPairSync('rsa', {
+    modulusLength: 2048,
+    publicKeyEncoding: {
+      type: 'spki',
+      format: 'pem'
+    },
+    privateKeyEncoding: {
+      type: 'pkcs8',
+      format: 'pem'
+    }
+  });
+      \end{minted}
+    \end{column}
+
+    \begin{column}{0.48\textwidth}
+      \begin{minted}[fontsize=\scriptsize]{javascript}
+// Chiffrement
+const message = 'Message secret';
+const encrypted = crypto.publicEncrypt(
+  publicKey,
+  Buffer.from(message)
+);
+
+// Déchiffrement
+const decrypted = crypto.privateDecrypt(
+  privateKey,
+  encrypted
+);
+
+console.log(decrypted.toString());
+// Affiche: Message secret
+      \end{minted}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Applications pratiques}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      HTTPS/TLS :
+      \begin{itemize}
+        \item Authentification du serveur
+        \item Échange de clé de session
+        \item Certificats X.509
+      \end{itemize}
+
+      SSH :
+      \begin{itemize}
+        \item Authentification par clé
+        \item Connexion sans mot de passe
+        \item Forward secrecy
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.5\textwidth}
+      Blockchain :
+      \begin{itemize}
+        \item Adresses de portefeuille
+        \item Signature de transactions
+        \item Smart contracts
+      \end{itemize}
+
+      Email sécurisé :
+      \begin{itemize}
+        \item PGP/GPG
+        \item S/MIME
+        \item ProtonMail
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Limites et considérations}
+  \begin{itemize}
+    \item Performance
+      \begin{itemize}
+        \item 1000-10000× plus lent que le symétrique
+        \item Limité à de petites quantités de données
+        \item D'où l'utilisation hybride avec le symétrique
+      \end{itemize}
+    \item Sécurité
+      \begin{itemize}
+        \item Vulnérable aux attaques quantiques
+        \item Importance de la génération aléatoire
+        \item Protection des clés privées critique
+      \end{itemize}
+    \item Gestion des clés
+      \begin{itemize}
+        \item Distribution des clés publiques
+        \item Révocation de certificats
+        \item Durée de vie des clés
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Comparaison Symétrique vs Asymétrique}
+  \begin{center}
+    \begin{tabular}{|l|l|l|}
+      \hline
+      \textbf{Critère} & \textbf{Symétrique} & \textbf{Asymétrique} \\
+      \hline
+      Performance & Rapide & Lent \\
+      Taille des clés & 128-256 bits & 2048-4096 bits \\
+      Échange de clés & Difficile & Facile \\
+      Usage principal & Données volumineuses & Échange de clés \\
+      Algorithmes & AES, ChaCha20 & RSA, ECC \\
+      \hline
+    \end{tabular}
+  \end{center}
+
+  \begin{itemize}
+    \item Les deux types sont complémentaires
+    \item Utilisés ensemble dans la plupart des protocoles
+    \item Chacun a ses forces et faiblesses
+  \end{itemize}
+\end{frame}
